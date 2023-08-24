@@ -1,25 +1,36 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 
-import { sq } from "./../server";
+import sequelize from "config/database";
 
-const User = sq.define("user", {
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    primaryKey: true,
+// const dbInstance = db.sequelize;
+
+class User extends Model {}
+
+User.init(
+  {
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true,
+    },
+
+    fullName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    password: {
+      type: DataTypes.STRING,
+    },
   },
-
-  fullName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-
-  password: {
-    type: DataTypes.STRING,
-  },
-});
+  {
+    sequelize: sequelize,
+    modelName: "User",
+  }
+);
 
 User.sync().then(() => {
+  console.log(User === sequelize.models.User);
   console.log("User Model synced");
 });
 

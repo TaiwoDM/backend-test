@@ -16,7 +16,7 @@ router.post(
         const err: ErrorResponse = new Error("Provide all required details");
         err.statusCode = 400;
         err.status = "failed";
-        throw err;
+        return next(err);
       }
 
       const encryptedPassword = await hashPassword(password);
@@ -30,10 +30,10 @@ router.post(
       return res.status(201).json({
         status: "success",
         message: "User sucessfully created",
-        data: newUser,
+        // data: newUser,
       });
     } catch (error) {
-      throw error;
+      return next(error);
     }
   }
 );

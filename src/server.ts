@@ -1,34 +1,13 @@
-import app from "src/index";
+// import { Sequelize } from "sequelize";
 import { Sequelize } from "sequelize";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// connect to db
-if (
-  !process.env.POSTGRES_DB ||
-  !process.env.POSTGRES_HOST ||
-  !process.env.POSTGRES_PORT ||
-  !process.env.POSTGRES_USER ||
-  !process.env.POSTGRES_PASSWORD
-) {
-  throw Error("All PostgresDB env variables must be defined");
-}
+import sequelize from "config/database";
 
-const sequelize = new Sequelize(
-  process.env.POSTGRES_DB,
-  process.env.POSTGRES_USER,
-  process.env.POSTGRES_PASSWORD,
-  {
-    host: process.env.POSTGRES_HOST,
-    dialect: "postgres",
-  }
-);
+import app from "src/index";
 
-const start = async () => {
-  app.listen(5000, () => {
-    console.log("Server has started running on port 8000");
-  });
-
+const testDBConnection = async () => {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
@@ -37,6 +16,8 @@ const start = async () => {
   }
 };
 
-start();
+testDBConnection();
 
-export { sequelize as sq };
+app.listen(5000, () => {
+  console.log("Server has started running on port 5000");
+});
