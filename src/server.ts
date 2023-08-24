@@ -1,24 +1,33 @@
-import { Sequelize } from "sequelize";
-
 import app from "src/index";
+import { Sequelize } from "sequelize";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // connect to db
-const start = async () => {
-  if (
-    !process.env.POSTGRES_DB ||
-    !process.env.POSTGRES_HOST ||
-    !process.env.POSTGRES_PORT ||
-    !process.env.POSTGRES_USER ||
-    !process.env.POSTGRES_PASSWORD
-  ) {
-    throw new Error("All PostgresDB env variables must be defined");
-  }
+if (
+  !process.env.POSTGRES_DB ||
+  !process.env.POSTGRES_HOST ||
+  !process.env.POSTGRES_PORT ||
+  !process.env.POSTGRES_USER ||
+  !process.env.POSTGRES_PASSWORD
+) {
+  throw Error("All PostgresDB env variables must be defined");
+}
 
-  const sequelize = new Sequelize(
-    process.env.POSTGRES_DB,
-    process.env.POSTGRES_USER,
-    process.env.POSTGRES_PASSWORD
-  );
+const sequelize = new Sequelize(
+  process.env.POSTGRES_DB,
+  process.env.POSTGRES_USER,
+  process.env.POSTGRES_PASSWORD,
+  {
+    host: process.env.POSTGRES_HOST,
+    dialect: "postgres",
+  }
+);
+
+const start = async () => {
+  app.listen(5000, () => {
+    console.log("Server has started running on port 8000");
+  });
 
   try {
     await sequelize.authenticate();
@@ -26,10 +35,8 @@ const start = async () => {
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }
-
-  app.listen(8000, () => {
-    console.log("Server has started running on port 8000");
-  });
 };
 
 start();
+
+export { sequelize as sq };
