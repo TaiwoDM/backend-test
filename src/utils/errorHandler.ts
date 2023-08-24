@@ -4,6 +4,7 @@ export interface ErrorResponse {
   message: string;
   statusCode?: number;
   status?: string;
+  stack?: Object;
 }
 
 export const errorHandler = (
@@ -15,12 +16,14 @@ export const errorHandler = (
   if (!err.status) {
     err.status = "error";
   }
-  if (!err.status) {
-    err.statusCode = 500;
+
+  if (err.status = "error") {
+    err.stack = err.stack
   }
 
   res.status(err.statusCode || 500).json({
     status: err.status,
     message: err.message,
+    errstack: err.stack || {}
   });
 };

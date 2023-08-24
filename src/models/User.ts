@@ -4,7 +4,13 @@ import sequelize from "config/database";
 
 // const dbInstance = db.sequelize;
 
-class User extends Model {}
+interface IUser {
+  email?: string;
+  fullName?: string;
+  password?: string;
+}
+
+class User extends Model { }
 
 User.init(
   {
@@ -34,4 +40,4 @@ User.sync().then(() => {
   console.log("User Model synced");
 });
 
-export default User;
+export { User as default, IUser };
