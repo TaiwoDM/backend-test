@@ -12,7 +12,7 @@ export const errorHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Response => {
   if (!err.status) {
     err.status = "error";
   }
@@ -21,9 +21,19 @@ export const errorHandler = (
     err.stack = err.stack
   }
 
-  res.status(err.statusCode || 500).json({
+
+
+  return res.status(err.statusCode || 500).json({
     status: err.status,
     message: err.message,
     errstack: err.stack || {}
   });
 };
+
+export const generateErrorObj = (message: string, errorCode: number, status: string) => {
+  const err: ErrorResponse = new Error(message);
+  err.statusCode = errorCode;
+  err.status = "failed";
+
+  return err
+}

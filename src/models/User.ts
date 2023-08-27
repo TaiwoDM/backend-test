@@ -1,13 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 
-import sequelize from "config/database";
+import sequelize from "src/config/database";
 
-// const dbInstance = db.sequelize;
 
 interface IUser {
-  email?: string;
-  fullName?: string;
-  password?: string;
+  email: string;
+  fullName: string;
+  password: string | undefined;
 }
 
 class User extends Model { }
@@ -32,12 +31,9 @@ User.init(
   {
     sequelize: sequelize,
     modelName: "User",
+    tableName: "users"
   }
 );
 
-User.sync().then(() => {
-  console.log(User === sequelize.models.User);
-  console.log("User Model synced");
-});
 
 export { User as default, IUser };

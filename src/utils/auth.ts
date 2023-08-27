@@ -1,4 +1,6 @@
 import bcrypt from "bcrypt";
+import express, { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
 export const hashPassword = (password: string): Promise<Boolean | string> => {
   return new Promise((resolve, reject) => {
@@ -21,4 +23,25 @@ export const comparePassword = (
   hashed: string
 ): Promise<Boolean> => {
   return bcrypt.compare(password, hashed);
+};
+
+
+export const generateAndSendToken = (user: any, res: Response, statusCode: number) => {
+  const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET!, {
+    expiresIn: "1d",
+  });
+
+  res.cookie('jwt', token, {
+    expires: new Date(
+      Date.now() + 7 * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  });
+
+  user.password = undefined;
+
+  return res.status(statusCode).json({
+    email: user.dataValues.email,
+    fullName: user.dataValues.fullName,
+  });
 };
