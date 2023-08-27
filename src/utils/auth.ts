@@ -27,6 +27,7 @@ export const comparePassword = (
 
 
 export const generateAndSendToken = (user: any, res: Response, statusCode: number) => {
+
   const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET!, {
     expiresIn: "1d",
   });
@@ -41,7 +42,7 @@ export const generateAndSendToken = (user: any, res: Response, statusCode: numbe
   user.password = undefined;
 
   return res.status(statusCode).json({
-    email: user.dataValues.email,
-    fullName: user.dataValues.fullName,
+    email: user.email,
+    fullName: user.fullName,
   });
 };

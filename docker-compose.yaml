@@ -7,7 +7,7 @@ services:
     ports:
       - "5432:5432"
   app:
-    image: 758465340169.dkr.ecr.us-east-1.amazonaws.com/rise-backend-test:latest
+    image: rise-backend-test
     env_file:
       - ./.env
     ports:

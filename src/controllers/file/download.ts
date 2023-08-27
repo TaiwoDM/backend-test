@@ -15,7 +15,7 @@ const downloadFile = async (req: Request, res: Response, next: NextFunction) => 
         });
 
         if (!file) {
-            return next(generateErrorObj("The file being requested doesn't exist anymore or never existed.", 401, "failed"))
+            return next(generateErrorObj("The file being requested doesn't exist anymore or never existed.", 400, "failed"))
         }
 
         if (file.dataValues.UserEmail != req.user) {
@@ -33,7 +33,7 @@ const downloadFile = async (req: Request, res: Response, next: NextFunction) => 
         return res.send(fileRes.Body)
 
     } catch (error) {
-        return next(error)
+        next(generateErrorObj("An error occured when trying to download file.", 500, "error"));
     }
 }
 

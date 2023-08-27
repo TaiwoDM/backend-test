@@ -36,10 +36,9 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
 
         req.user = currentUser.email;
 
-        console.log(req.user + " in protect middleware")
         next();
     } catch (error) {
-        return next(error)
+        return next(generateErrorObj('An error occured while trying to secure route.', 500, "failed"))
     }
 }
 

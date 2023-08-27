@@ -25,10 +25,10 @@ const createDir = async (req: Request, res: Response, next: NextFunction) => {
         })
 
 
-        return res.status(201).json({ status: "success", message: `Directory ${dirName}-${req.user} has been created successfully` })
+        return res.status(201).json({ status: "success", message: `Directory ${dirName}-${req.user} has been created successfully.` })
 
     } catch (error) {
-        return next(error)
+        next(generateErrorObj("An error occured when trying to create new directory.", 500, "error"));
     }
 }
 

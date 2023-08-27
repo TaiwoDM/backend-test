@@ -32,9 +32,9 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
             password: encryptedPassword,
         });
 
-        generateAndSendToken(newUser, res, 201)
+        generateAndSendToken(newUser.dataValues, res, 201)
     } catch (error) {
-        return next(error);
+        next(generateErrorObj("An error occured when trying to register new user", 500, "error"));
     }
 };
 

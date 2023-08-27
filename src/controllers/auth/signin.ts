@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import { User } from "src/models/index";
 import { comparePassword, generateAndSendToken } from "src/utils/auth";
-import { ErrorResponse, generateErrorObj } from "src/utils/errorHandler";
+import { generateErrorObj } from "src/utils/errorHandler";
 
 const signin = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -30,7 +30,7 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 
         generateAndSendToken(user.dataValues, res, 201)
     } catch (error) {
-        return next(error);
+        next(generateErrorObj("An error occured while trying to sign user in.", 500, "failed"));
     }
 };
 

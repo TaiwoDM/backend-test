@@ -5,10 +5,9 @@ dotenv.config();
 // connect to db
 if (
   !process.env.POSTGRES_DB ||
-  !process.env.POSTGRES_HOST ||
   !process.env.POSTGRES_PORT ||
   !process.env.POSTGRES_USER ||
-  !process.env.POSTGRES_PASSWORD
+  !process.env.POSTGRES_PASSWORD || !process.env.APP_ENV
 ) {
   throw Error("All PostgresDB env variables must be defined");
 }
@@ -19,7 +18,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.POSTGRES_HOST || "localhost",
     dialect: "postgres",
-    logging: false,
+    logging: process.env.APP_ENV == "test" ? false : true
   }
 );
 

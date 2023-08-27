@@ -13,11 +13,16 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ): Response => {
+
   if (!err.status) {
     err.status = "error";
   }
 
-  if (err.status = "error") {
+  if (err.message == "File too large") {
+    err.statusCode = 400,
+      err.status = "failed"
+  }
+  if (err.status == "error") {
     err.stack = err.stack
   }
 
