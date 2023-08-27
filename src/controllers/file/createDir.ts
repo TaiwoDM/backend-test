@@ -11,7 +11,7 @@ const createDir = async (req: Request, res: Response, next: NextFunction) => {
             return next(generateErrorObj("Provide directory name", 400, "failed"));
         }
 
-        const id = `${dirName}-${req.user}/`
+        const id = `${dirName}-${req.user?.email}/`
 
         const Obj = await awsS3ClientV2.putObject({
             Key: id,
@@ -21,11 +21,11 @@ const createDir = async (req: Request, res: Response, next: NextFunction) => {
         const newFolder = await Folder.create({
             folderId: id,
             dirName,
-            UserEmail: req.user
+            UserEmail: req.user?.email
         })
 
 
-        return res.status(201).json({ status: "success", message: `Directory ${dirName}-${req.user} has been created successfully.` })
+        return res.status(201).json({ status: "success", message: `Directory ${dirName}-${req.user?.email} has been created successfully.` })
 
     } catch (error) {
         next(generateErrorObj("An error occured when trying to create new directory.", 500, "error"));

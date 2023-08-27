@@ -4,7 +4,10 @@ import * as jwt from "jsonwebtoken"
 declare global {
     namespace Express {
         interface Request {
-            user?: Record<string, any>
+            user?: {
+                email: string,
+                admin: Boolean
+            }
             file?: any
         }
     }

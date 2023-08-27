@@ -11,7 +11,7 @@ import { generateErrorObj } from "src/utils/errorHandler";
 const uploadFileController = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        const ownerEmail = req.user
+        const ownerEmail = req.user?.email
         const { dirName } = req.body
         const FolderId = `${dirName}-${ownerEmail}/`
         const file = req.file;
@@ -58,7 +58,7 @@ const uploadFileController = async (req: Request, res: Response, next: NextFunct
 
         })
 
-        return res.status(201).json({ status: "success", message: "File successfully updated", data: newFile })
+        return res.status(201).json({ status: "success", message: "File successfully uploaded", data: newFile })
     } catch (error) {
         return next(generateErrorObj("Something occured while program was trying to add create a file", 500, "error"));
     }

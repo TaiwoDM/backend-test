@@ -18,17 +18,18 @@ const downloadFile = async (req: Request, res: Response, next: NextFunction) => 
             return next(generateErrorObj("The file being requested doesn't exist anymore or never existed.", 400, "failed"))
         }
 
-        if (file.dataValues.UserEmail != req.user) {
+        if (file.dataValues.UserEmail != req.user?.email) {
             return next(generateErrorObj("You do not have access to this file.", 401, "failed"))
         }
 
         const getObjParams = {
-            Key: id,
+            Key: `${file.dataValues.FolderFolderId}${id}`,
             Bucket: "rise-test-cloudapp-bucket"
         }
 
         const fileRes = await awsS3ClientV2.getObject(getObjParams).promise()
 
+        console.log(file)
 
         return res.send(fileRes.Body)
 

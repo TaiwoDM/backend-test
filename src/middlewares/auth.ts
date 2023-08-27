@@ -16,12 +16,13 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
             token = req.headers.authorization.split(' ')[1];
         }
 
+
         if (!token) {
             return next(generateErrorObj("You are not logged in, please login to get access", 401, "failed"))
         }
 
-        const { email } = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload
 
+        const { email, admin } = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload
 
         const currentUser: any = await User.findOne({
             where: {
@@ -34,11 +35,11 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
             return next(generateErrorObj('The user belonging to this token does no longer exist.', 401, "failed"))
         }
 
-        req.user = currentUser.email;
+        req.user = { email, admin };
 
         next();
     } catch (error) {
-        return next(generateErrorObj('An error occured while trying to secure route.', 500, "failed"))
+        return next(generateErrorObj('Invalid or expired token', 401, "failed"))
     }
 }
 

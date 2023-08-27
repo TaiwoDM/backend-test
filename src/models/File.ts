@@ -23,6 +23,11 @@ File.init(
         size: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        unsafe: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
     },
     {
