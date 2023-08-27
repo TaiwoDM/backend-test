@@ -8,7 +8,7 @@ import sequelize from "src/config/database";
 import app from "src/index";
 
 if (
-  !process.env.JWT_SECRET || !process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_REGION || !process.env.AWS_API_VERSION
+  !process.env.JWT_SECRET || !process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_REGION || !process.env.AWS_API_VERSION || !process.env.SERVER_PORT
 ) {
   throw Error("All env variables must be defined");
 }
@@ -24,6 +24,6 @@ const testDBConnection = async () => {
 
 testDBConnection();
 
-app.listen(5000, () => {
-  console.log("Server has started running on port 5000");
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`Server has started running on ${process.env.SERVER_PORT}`);
 });
