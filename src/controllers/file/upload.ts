@@ -54,6 +54,7 @@ const uploadFileController = async (req: Request, res: Response, next: NextFunct
             file: location,
             type: mimetype,
             UserEmail: ownerEmail,
+            unsafe: false,
             FolderFolderId: FolderId
 
         })

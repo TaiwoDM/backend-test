@@ -13,12 +13,22 @@ const createDir = async (req: Request, res: Response, next: NextFunction) => {
 
         const id = `${dirName}-${req.user?.email}/`
 
-        const Obj = await awsS3ClientV2.putObject({
+        const dirExist = await Folder.findOne({
+            where: {
+                folderId: id
+            }
+        })
+
+        if (dirExist) {
+            return next(generateErrorObj("You already have a folder with that name. Use another name", 400, "failed"));
+        }
+
+        await awsS3ClientV2.putObject({
             Key: id,
             Bucket: `rise-test-cloudapp-bucket`,
         }).promise();
 
-        const newFolder = await Folder.create({
+        await Folder.create({
             folderId: id,
             dirName,
             UserEmail: req.user?.email

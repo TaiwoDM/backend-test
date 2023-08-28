@@ -8,11 +8,16 @@ const downloadFile = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const { id } = req.params
 
+        console.log(id + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
         const file: any = await File.findOne({
             where: {
                 id
             }
         });
+
+        console.log(file)
+
 
         if (!file) {
             return next(generateErrorObj("The file being requested doesn't exist anymore or never existed.", 400, "failed"))
@@ -23,7 +28,7 @@ const downloadFile = async (req: Request, res: Response, next: NextFunction) => 
         }
 
         const getObjParams = {
-            Key: `${file.dataValues.FolderFolderId}${id}`,
+            Key: file.dataValues.file,
             Bucket: "rise-test-cloudapp-bucket"
         }
 
