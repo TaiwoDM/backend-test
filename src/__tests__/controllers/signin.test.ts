@@ -6,7 +6,7 @@ import supertest from 'supertest';
 
 const userPayload = {
     email: "test5@test.com",
-    fullName: "Test Test",
+    fullName: "Test Test"
 };
 
 const UserInput = {
@@ -16,13 +16,13 @@ const UserInput = {
 };
 
 describe("user signin", () => {
-    describe("given email, fullname and password are provided and email is unique", () => {
+    describe("given email and password", () => {
 
-        it('returns a 201 on successful signup', async () => {
+        it('returns a 200 on successful in', async () => {
 
-            const { statusCode, body } = await supertest(app).post("/api/users/signup").send(UserInput)
+            const { statusCode, body } = await supertest(app).post("/api/users/signin").send(UserInput)
 
-            expect(statusCode).toBe(201);
+            expect(statusCode).toBe(200);
 
             expect(body).toEqual(userPayload)
 
