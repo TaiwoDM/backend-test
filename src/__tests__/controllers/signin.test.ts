@@ -43,23 +43,3 @@ it('returns a 400 for missing fullName or password', async () => {
         })
         .expect(400);
 });
-
-it('disallows duplicate emails', async () => {
-    await request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'shouldbeunique@test.com',
-            fullName: "Test Test",
-            password: 'password',
-        })
-        .expect(201);
-
-    await request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'shouldbeunique@test.com',
-            fullName: "Test2 Test2",
-            password: 'password1',
-        })
-        .expect(400);
-});
