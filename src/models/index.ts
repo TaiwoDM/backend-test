@@ -6,20 +6,29 @@ import File from "./File";
 
 User.hasMany(File, { as: "files", foreignKey: "email" });
 User.hasMany(Folder, { as: "folders", foreignKey: "email" });
-Folder.hasMany(File, { as: "files", foreignKey: "folderId" })
+Folder.hasMany(File, { as: "files", foreignKey: "folderId" });
 File.belongsTo(User);
 File.belongsTo(Folder);
 Folder.belongsTo(User);
 
-User.sync().then(() => {
-    // console.log(User === sequelize.models.User);
-    // console.log("User Model synced");
-});
+const syncTabless = async () => {
+  try {
+    await User.sync();
+  } catch (err) {
+    console.log("User Model could not synced");
+  }
+  try {
+    await Folder.sync();
+  } catch (err) {
+    console.log("Folder Model could not synced");
+  }
+  try {
+    await File.sync();
+  } catch (err) {
+    console.log("File Model could not synced");
+  }
+};
 
-Folder.sync().then(() => {
-});
+syncTabless();
 
-File.sync().then(() => {
-});
-
-export { User, File, Folder }
+export { User, File, Folder };

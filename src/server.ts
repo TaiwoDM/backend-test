@@ -8,7 +8,12 @@ import sequelize from "src/config/database";
 import app from "src/index";
 
 if (
-  !process.env.JWT_SECRET || !process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_REGION || !process.env.AWS_API_VERSION || !process.env.SERVER_PORT
+  !process.env.JWT_SECRET ||
+  !process.env.AWS_ACCESS_KEY_ID ||
+  !process.env.AWS_SECRET_ACCESS_KEY ||
+  !process.env.AWS_REGION ||
+  !process.env.AWS_API_VERSION ||
+  !process.env.SERVER_PORT
 ) {
   throw Error("All env variables must be defined");
 }
